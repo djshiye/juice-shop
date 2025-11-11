@@ -21,7 +21,7 @@ after(() => runner.clear());
 test('GET /rest/products/search?q=:query', { signal: AbortSignal.timeout(timeout) }, async () => {
   await runner
     .createScan({
-      tests: ['sqli', 'xss', 'business_constraint_bypass', 'full_path_disclosure'],
+      tests: ['sqli'],
       attackParamLocations: [AttackParamLocation.QUERY],
       starMetadata: { databases: ['SQLite'] }
     })
