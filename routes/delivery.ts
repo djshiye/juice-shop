@@ -31,6 +31,9 @@ export function getDeliveryMethods () {
 
 export function getDeliveryMethod () {
   return async (req: Request, res: Response, next: NextFunction) => {
+    if (!security.isAuthorized(req)) {
+      return res.status(403).json({ status: 'error', message: 'Unauthorized access' })
+    }
     const method = await DeliveryModel.findOne({ where: { id: req.params.id } })
     if (method != null) {
       const sendMethod = {
