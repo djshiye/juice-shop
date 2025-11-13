@@ -46,3 +46,24 @@ export function delAddressById () {
     }
   }
 }
+
+export function createAddress () {
+  return async (req: Request, res: Response) => {
+    const userId = req.body.UserId
+    if (!userId) {
+      return res.status(401).json({ status: 'error', data: 'Unauthorized access.' })
+    }
+    const { fullName, mobileNum, zipCode, streetAddress, city, state, country } = req.body
+    const newAddress = await AddressModel.create({
+      UserId: userId,
+      fullName,
+      mobileNum,
+      zipCode,
+      streetAddress,
+      city,
+      state,
+      country
+    })
+    res.status(201).json({ status: 'success', data: newAddress })
+  }
+}
