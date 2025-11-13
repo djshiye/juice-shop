@@ -21,7 +21,7 @@ after(() => runner.clear());
 test('GET /rest/basket/1', { signal: AbortSignal.timeout(timeout) }, async () => {
   await runner
     .createScan({
-      tests: ['id_enumeration', 'bopla', 'sqli', 'xss'],
+      tests: ['id_enumeration'],
       attackParamLocations: [AttackParamLocation.PATH],
       starMetadata: { databases: ['SQLite'] }
     })

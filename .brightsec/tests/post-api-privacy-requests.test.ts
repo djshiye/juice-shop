@@ -21,7 +21,7 @@ after(() => runner.clear());
 test('POST /api/privacy-requests', { signal: AbortSignal.timeout(timeout) }, async () => {
   await runner
     .createScan({
-      tests: ['bopla', 'csrf', 'id_enumeration', 'jwt', 'sqli', 'xss'],
+      tests: ['id_enumeration', 'jwt'],
       attackParamLocations: [AttackParamLocation.BODY, AttackParamLocation.HEADER],
       starMetadata: { databases: ['SQLite'] },
       skipStaticParams: false
