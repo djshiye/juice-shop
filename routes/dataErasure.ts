@@ -58,6 +58,12 @@ router.post('/', async (req: Request<Record<string, unknown>, Record<string, unk
     return
   }
 
+  // Ensure the UserId in the request matches the logged-in user's ID
+  if (req.body.UserId !== loggedInUser.data.id) {
+    res.status(403).json({ error: 'Unauthorized access to user data' })
+    return
+  }
+
   try {
     await PrivacyRequestModel.create({
       UserId: loggedInUser.data.id,

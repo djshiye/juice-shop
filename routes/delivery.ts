@@ -31,8 +31,15 @@ export function getDeliveryMethods () {
 
 export function getDeliveryMethod () {
   return async (req: Request, res: Response, next: NextFunction) => {
+    if (!security.isAuthorized(req)) {
+      return res.status(403).json({ status: 'error', message: 'Unauthorized access' })
+    }
     const method = await DeliveryModel.findOne({ where: { id: req.params.id } })
     if (method != null) {
+      // Check if the user is authorized to access this specific delivery method
+      if (!security.isAuthorizedForDelivery(req, method)) {
+        return res.status(403).json({ status: 'error', message: 'Unauthorized access to this delivery method' })
+      }
       const sendMethod = {
         id: method.id,
         name: method.name,
@@ -42,7 +49,7 @@ export function getDeliveryMethod () {
       }
       res.status(200).json({ status: 'success', data: sendMethod })
     } else {
-      res.status(400).json({ status: 'error' })
+      res.status(404).json({ status: 'error', message: 'Delivery method not found' })
     }
   }
 }
